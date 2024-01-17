@@ -1,12 +1,67 @@
 
+import json
+import os
+
+from googleapiclient.discovery import build
+
 
 class Channel:
     """Класс для ютуб-канала"""
 
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
-        pass
 
-    def print_info(self) -> None:
-        """Выводит в консоль информацию о канале."""
-        pass
+        self.__channel_id = channel_id
+        self.make_atribute_info()
+
+    def __repr__(self):
+        return (f"{self.channel_id} id канала\n"
+                f"{self.title} название канала\n"
+                f"{self.video_count} количество видео\n"
+                f"{self.url} url")
+
+    def get_info(self) -> None:
+        """Получает информация по API."""
+        youtube = build('youtube', 'v3', developerKey="AIzaSyDfzCvTPBFi-GnDLrhIhfwfTtBwaAV2cqA")
+        return youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
+
+    def print_info(self):
+        """
+        Выводит информацию на экран.
+        """
+        info = self.get_info()
+        print(info)
+
+    def make_atribute_info(self):
+        """
+        Создает и заполняет атрибуты класса из полученной информации.
+        """
+        info = self.get_info()
+        self.title = info['items'][0]['snippet']['title']
+        self.video_count = info['items'][0]["statistics"]["videoCount"]
+        self.description = info['items'][0]['snippet']['description']
+        self.url = f"https://www.youtube.com/channel/{self.channel_id}"
+        self.subscriber_count = info['items'][0]["statistics"]["subscriberCount"]
+        self.view_count = info['items'][0]["statistics"]["subscriberCount"]
+
+    @property
+    def channel_id(self):
+        return self.__channel_id
+
+    @classmethod
+    def get_service(cls):
+        """
+        Возвращает объект для работы с YouTube API.
+        """
+        return build('youtube', 'v3', developerKey="AIzaSyDfzCvTPBFi-GnDLrhIhfwfTtBwaAV2cqA")
+
+    def to_json(self):
+        """
+        Создает файл json с информацией из атрибутов класса.
+        """
+        with open('youtube_statistics.json', 'w', encoding='utf-8') as file:
+            file.write(json.dumps(self.__dict__))
+
+    @channel_id.setter
+    def channel_id(self, value):
+        self._channel_id = value
