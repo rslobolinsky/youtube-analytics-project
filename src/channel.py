@@ -20,9 +20,33 @@ class Channel:
                 f"{self.video_count} количество видео\n"
                 f"{self.url} url")
 
+    def __str__(self):
+        return f'{self.title} {self.url}'
+
+    def __add__(self, other):
+        return int(self.subscriber_count) + int(other.subscriber_count)
+
+    def __sub__(self, other):
+        return int(self.subscriber_count) - int(other.subscriber_count)
+
+    def __lt__(self, other):
+        return int(self.subscriber_count) < int(other.subscriber_count)
+
+    def __le__(self, other):
+        return int(self.subscriber_count) <= int(other.subscriber_count)
+
+    def __gt__(self, other):
+        return int(self.subscriber_count) > int(other.subscriber_count)
+
+    def __ge__(self, other):
+        return int(self.subscriber_count) >= int(other.subscriber_count)
+
+    def __eq__(self, other):
+        return int(self.subscriber_count) == int(other.subscriber_count)
+
     def get_info(self) -> None:
         """Получает информация по API."""
-        youtube = build('youtube', 'v3', developerKey="AIzaSyDfzCvTPBFi-GnDLrhIhfwfTtBwaAV2cqA")
+        youtube = build('youtube', 'v3', developerKey=os.getenv("TEST_YOUTUBE_API"))
         return youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
 
     def print_info(self):
