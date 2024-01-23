@@ -45,7 +45,7 @@ class Channel:
         return int(self.subscriber_count) == int(other.subscriber_count)
 
     def get_info(self) -> None:
-        """Получает информация по API."""
+        """Выводит в консоль информацию о канале"""
         youtube = build('youtube', 'v3', developerKey=os.getenv("TEST_YOUTUBE_API"))
         return youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
 
@@ -77,7 +77,7 @@ class Channel:
         """
         Возвращает объект для работы с YouTube API.
         """
-        return build('youtube', 'v3', developerKey="AIzaSyDfzCvTPBFi-GnDLrhIhfwfTtBwaAV2cqA")
+        return build('youtube', 'v3', developerKey=os.getenv("TEST_YOUTUBE_API"))
 
     def to_json(self):
         """
