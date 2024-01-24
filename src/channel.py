@@ -47,7 +47,7 @@ class Channel:
 
     def get_info(self) -> None:
         """Выводит в консоль информацию о канале"""
-        youtube = build('youtube', 'v3', developerKey=os.getenv("TEST_YOUTUBE_API"))
+        youtube = build('youtube', 'v3', developerKey=KEY_API_YOUTUBE)
         return youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
 
     def print_info(self):
@@ -57,7 +57,7 @@ class Channel:
         info = self.get_info()
         print(info)
 
-    def make_atribute_info(self):
+    def make_attribute_info(self):
         """
         Создает и заполняет атрибуты класса из полученной информации.
         """
@@ -91,5 +91,3 @@ class Channel:
     def channel_id(self, value):
         self._channel_id = value
 
-    def make_attribute_info(self):
-        return build('youtube', 'v3', developerKey=KEY_API_YOUTUBE)
