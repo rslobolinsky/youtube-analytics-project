@@ -5,7 +5,6 @@ import os
 from googleapiclient.discovery import build
 
 KEY_API_YOUTUBE = os.getenv("KEY_API_YOUTUBE")
-
 class Channel:
     """Класс для ютуб-канала"""
 
