@@ -6,7 +6,7 @@ import isodate
 from src.mixins import YoutubeMixin
 
 
-class Playlist(YoutubeMixin):
+class PlayList(YoutubeMixin):
     def __init__(self, id_playlist, ):
         self.id_playlist: str = id_playlist
         info = self.get_service().playlistItems().list(playlistId=self.id_playlist,
@@ -43,3 +43,5 @@ class Playlist(YoutubeMixin):
                 best_video_id: str = info['id']
 
         return f"https://youtu.be/{best_video_id}"
+
+
