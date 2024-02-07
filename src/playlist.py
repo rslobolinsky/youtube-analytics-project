@@ -43,5 +43,3 @@ class PlayList(YoutubeMixin):
                 best_video_id: str = info['id']
 
         return f"https://youtu.be/{best_video_id}"
-
-

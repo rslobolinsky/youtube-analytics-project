@@ -4,11 +4,20 @@ class Video(YoutubeMixin):
     def __init__(self, id_video):
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
         self.id_video = id_video
-        info = self.get_service().videos().list(id=self.id_video, part="snippet,contentDetails,statistics").execute()
-        self.title = info['items'][0]['snippet']['title']
-        self.url = f"https://www.youtube.com/watch?v={self.id_video}"
-        self.view_count = info['items'][0]['statistics']['viewCount']
-        self.like_count = info['items'][0]['statistics']['likeCount']
+        try:
+            self.make_attribute_info()
+        except:
+            self.title = None
+            self.url = None
+            self.view_count = None
+            self.like_count = None
+
+        # info = self.get_service().videos().list(id=self.id_video, part="snippet,contentDetails,statistics").execute()
+        # self.title = info['items'][0]['snippet']['title']
+        # self.url = f"https://www.youtube.com/watch?v={self.id_video}"
+        # self.view_count = info['items'][0]['statistics']['viewCount']
+        # self.like_count = info['items'][0]['statistics']['likeCount']
+
 
     def __str__(self):
         return f"{self.title}"
